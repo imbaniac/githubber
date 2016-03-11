@@ -24,12 +24,14 @@ class App extends Component{
     }
     
     render(){
-        const { selectedLanguage, users, isFetching } = this.props
+        const { selectedLanguage, users, isFetching, totalCount } = this.props
         return (
             <div>
-                <Picker value={selectedLanguage}
+                <Picker 
+                        total={totalCount}
+                        value={selectedLanguage}
                         onChange={this.handleChange}
-                        options={['javascript', 'c++', 'python', 'ruby', 'c#', 'swift']} />
+                        options={['javascript', 'c', 'html', 'python', 'ruby', 'swift']} />
                 { isFetching && users.length === 0 &&
                   <h2>Loading...</h2>
                 }
@@ -59,16 +61,18 @@ function mapStateToProps(state){
     const { selectedLanguage, usersByLanguage } = state
     const {
         isFetching,
-        items: users 
+        items: users,
+        totalCount
     } = usersByLanguage[selectedLanguage] || {
             isFetching: true,
-            items: []
+            items: [],
+            totalCount: 0 
         }
-        
     return {
         selectedLanguage,
         users,
-        isFetching
+        isFetching,
+        totalCount
     }
  }
  

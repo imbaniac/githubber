@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {SELECT_LANGUAGE, REQUEST_USERS, RECEIVE_USERS} from '../actions/actions';
 
-function selectedLanguage(state="javascript", action){
+export function selectedLanguage(state="javascript", action){
     switch(action.type){
         case SELECT_LANGUAGE:
             return action.language
@@ -10,9 +10,10 @@ function selectedLanguage(state="javascript", action){
     }
 }
 
-function users(state={
+export function users(state={
     isFetching: false,
-    items: []
+    items: [],
+    totalCount: 0
 }, action){
     switch(action.type){
         case REQUEST_USERS:
@@ -22,14 +23,15 @@ function users(state={
         case RECEIVE_USERS:
             return Object.assign({}, state, {
                 isFetching: false,
-                items: action.logins
+                items: action.users,
+                totalCount: action.totalCount
             })
         default: 
             return state
     }
 }
 
-function usersByLanguage(state={}, action){
+export function usersByLanguage(state={}, action){
     switch(action.type){
         case RECEIVE_USERS:
         case REQUEST_USERS:
