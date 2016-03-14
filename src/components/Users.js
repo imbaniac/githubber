@@ -7,7 +7,8 @@ export default class Users extends Component {
                 {this.props.users.map((user, i) =>
                     <li key={i}>
                     <img style={{height: "100px"}} src={user.avatar_url}/>{" "}
-                    <a href={user.html_url}>{user.login}</a>
+                    <a href={user.html_url}>{user.login} </a>
+                    <span>{user.numberOfFollowers}</span>
                     </li>
                 )}
             </ul>

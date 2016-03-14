@@ -27,15 +27,37 @@ export function receiveUsers(language, json){
     }
 }
 
+function fetchFollowers(user){
+     return fetch(`https://api.github.com/users/${user.login}`)
+           .then(res=> res.json())
+           .then((json)=>{
+               user.numberOfFollowers = json.followers
+            })
+}
+
+
 export function fetchUsers(language){
     return dispatch => {
         dispatch(requestUsers(language))
-        return fetch(`https://api.github.com/search/users?&page=1&per_page=100&q=language:${language}&sort=followers&order=desc`)
+        return fetch(`https://api.github.com/search/users?&page=1&per_page=3&q=language:${language}&sort=followers&order=desc`)
             .then(response => response.json())
-            .then(json=>dispatch(receiveUsers(language, json))
-        )
+            .then((json)=>{
+                for(let i=0; i<json.items.length;i++){
+                   fetch(`https://api.github.com/users/${json.items[i].login}`)
+                   .then(res=>res.json())
+                   .then((data)=>{
+                       json.items[i].numberOfFollowers = data.followers
+                   })
+                }
+                console.log(json)
+                return json
+            })
+            .then((json)=> {
+                dispatch(receiveUsers(language, json))
+            })
+            }
     }
-}
+
 
 function shouldFetchUsers(state, language){
     const users = state.usersByLanguage[language]
@@ -43,7 +65,7 @@ function shouldFetchUsers(state, language){
         return true
     } else if(users.isFetching){
         return false;
-    }
+    } else return false
 }
 
 export function fetchUsersIfNeeded(language){

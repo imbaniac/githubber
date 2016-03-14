@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {selectLanguage, fetchUsersIfNeeded} from '../actions/actions'
+import {selectLanguage, fetchUsersIfNeeded, fetchFollowers} from '../actions/actions'
 import Picker from '../components/Picker'
 import Users from '../components/Users'
 
@@ -22,9 +22,11 @@ class App extends Component{
     handleChange(nextLanguage){
         this.props.dispatch(selectLanguage(nextLanguage))
     }
+
     
     render(){
         const { selectedLanguage, users, isFetching, totalCount } = this.props
+        
         return (
             <div>
                 <Picker 
@@ -63,16 +65,17 @@ function mapStateToProps(state){
         isFetching,
         items: users,
         totalCount
+        
     } = usersByLanguage[selectedLanguage] || {
             isFetching: true,
             items: [],
-            totalCount: 0 
+            totalCount: 0
         }
     return {
         selectedLanguage,
         users,
         isFetching,
-        totalCount
+        totalCount 
     }
  }
  
