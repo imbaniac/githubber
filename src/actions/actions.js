@@ -27,15 +27,6 @@ export function receiveUsers(language, json){
     }
 }
 
-function fetchFollowers(user){
-     return fetch(`https://api.github.com/users/${user.login}`)
-           .then(res=> res.json())
-           .then((json)=>{
-               user.numberOfFollowers = json.followers
-            })
-}
-
-
 export function fetchUsers(language){
     return dispatch => {
         dispatch(requestUsers(language))
