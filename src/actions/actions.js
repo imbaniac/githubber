@@ -30,7 +30,7 @@ export function receiveUsers(language, json){
 export function fetchUsers(language){
     return dispatch => {
         dispatch(requestUsers(language))
-        return fetch(`https://api.github.com/search/users?&page=1&per_page=3&q=language:${language}&sort=followers&order=desc`)
+        return fetch(`https://api.github.com/search/users?&page=1&per_page=10&q=language:${language}&sort=followers&order=desc`)
             .then(response => response.json())
             .then((json)=>{
                 for(let i=0; i<json.items.length;i++){
@@ -40,7 +40,6 @@ export function fetchUsers(language){
                        json.items[i].numberOfFollowers = data.followers
                    })
                 }
-                console.log(json)
                 return json
             })
             .then((json)=> {
