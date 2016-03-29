@@ -28,7 +28,7 @@ class App extends Component{
         const { selectedLanguage, users, isFetching, totalCount } = this.props
         
         return (
-            <div>
+            <div className="picker">
                 <Picker 
                         total={totalCount}
                         value={selectedLanguage}
@@ -41,8 +41,8 @@ class App extends Component{
                     <h2>Empty</h2>
                 }
                 {users.length>0 && 
-                    <div style= {{opacity: isFetching? 0.5 : 1}}>
-                        <Users users={users} />
+                    <div className="users" style= {{opacity: isFetching? 0.5 : 1}}>
+                        <Users users={users}/>
                     </div>
                 }
             </div>

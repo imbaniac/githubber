@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-
+import Q from 'q'
 export const SELECT_LANGUAGE = 'SELECT_LANGUAGE'
 export const REQUEST_USERS = 'REQUEST_USERS'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
@@ -26,27 +26,16 @@ export function receiveUsers(language, json){
         totalCount: json.total_count
     }
 }
-
 export function fetchUsers(language){
     return dispatch => {
         dispatch(requestUsers(language))
         return fetch(`https://api.github.com/search/users?&page=1&per_page=10&q=language:${language}&sort=followers&order=desc`)
             .then(response => response.json())
             .then((json)=>{
-                for(let i=0; i<json.items.length;i++){
-                   fetch(`https://api.github.com/users/${json.items[i].login}`)
-                   .then(res=>res.json())
-                   .then((data)=>{
-                       json.items[i].numberOfFollowers = data.followers
-                   })
-                }
-                return json
-            })
-            .then((json)=> {
                 dispatch(receiveUsers(language, json))
             })
-            }
-    }
+        }
+}
 
 
 function shouldFetchUsers(state, language){

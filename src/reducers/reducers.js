@@ -23,7 +23,7 @@ export function users(state={
         case RECEIVE_USERS:
             return Object.assign({}, state, {
                 isFetching: false,
-                items: action.users,
+                items: action.users,                
                 totalCount: action.totalCount
             })
         default: 

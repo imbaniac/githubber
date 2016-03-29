@@ -8,7 +8,6 @@ export default class Users extends Component {
                     <li key={i}>
                     <img style={{height: "100px"}} src={user.avatar_url}/>{" "}
                     <a href={user.html_url}>{user.login} </a>
-                    <span>{user.numberOfFollowers}</span>
                     </li>
                 )}
             </ul>
